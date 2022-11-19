@@ -25,45 +25,24 @@ import javafx.stage.Stage;
 
 public class Main extends Application{ 
     
+    //Layout
     private AnchorPane backPane = new AnchorPane();
-
     private AnchorPane rightPane = new AnchorPane();
-
-    private Jogador jogador1 = new Jogador();
-
-    private Jogador jogador2 = new Jogador();
-
     private VBox idleCards2 = new VBox();
-
     private VBox arenaCards2 = new VBox();
-
     private BorderPane center2 = new BorderPane();
-    
     private Button endRound = new Button("Finalizar Rodada");
-
     private Button endRound2 = new Button("Finalizar Rodada");
-
     private AnchorPane leftPane = new AnchorPane();
-
     private VBox idleCards = new VBox();
-
     private VBox arenaCards = new VBox();
-
     private BorderPane center = new BorderPane();
 
-    private Rodada rodada = new Rodada();
+    //Game Engine
+    private Partida partida;
 
+    //Métoodos
     public void startGameLeft(){
-        ArrayList<Carta> cartasteste = new ArrayList<>();
-        
-        for (int i = 0; i < 10; i++) {
-            Carta quadr = new Carta();
-            quadr.setOnMouseClicked(e -> {
-                trocararena(quadr);
-            });
-            cartasteste.add(quadr);
-        }
-
         
         backPane.minHeight(720);
         backPane.minWidth(1280);
@@ -106,27 +85,9 @@ public class Main extends Application{
         endRound.setVisible(true);
         center.setTop(endRound);
         center.setAlignment(endRound, Pos.TOP_CENTER);
-
-
-        
-
-        for (int i = 0; i < 5; i++) {
-            idleCards.getChildren().add(cartasteste.get(i));
-        }
     }
 
     public void startGameRight(){
-
-        ArrayList<Carta> cartasteste = new ArrayList<>();
-        
-        for (int i = 0; i < 10; i++) {
-            Carta quadr = new Carta();
-            quadr.setOnMouseClicked(e -> {
-                trocararena(quadr);
-            });
-            cartasteste.add(quadr);
-        }
-
         
         backPane.minHeight(720);
         backPane.minWidth(1280);
@@ -168,20 +129,60 @@ public class Main extends Application{
         endRound2.setVisible(true);
         center2.setTop(endRound2);
         center2.setAlignment(endRound2, Pos.TOP_CENTER);
-        
 
-        for (int i = 0; i < 5; i++) {
-            idleCards2.getChildren().add(cartasteste.get(i));
-        }
-        
+        Button resetButton = new Button("Restart Game");
+        resetButton.setOnMouseClicked(e -> {
+            startGame();
+        });
+
+        center.setCenter(resetButton);
         
     }
+
+    public void startGame(){
+        idleCards.getChildren().removeAll();
+        idleCards2.getChildren().removeAll();
+        arenaCards.getChildren().removeAll();
+        arenaCards2.getChildren().removeAll();
+        partida = new Partida();
+    }   
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        BorderPane menu = new BorderPane();
+        VBox buttons = new VBox();
+        Button jogar = new Button("Jogar");
+        Button sair = new Button("Sair");
+
+        buttons.getChildren().addAll(jogar,sair);
+        buttons.setAlignment(Pos.CENTER);
+        menu.setCenter(buttons);
+
+        jogar.setOnAction(e -> {
+            primaryStage();
+            primaryStage.hide();
+        });
+
+        sair.setOnAction(e -> {
+            System.exit(1);
+        });
+
+        Scene root= new Scene(menu);
+
+        primaryStage.setTitle("Menu");
+        primaryStage.setScene(root);
+        primaryStage.show();
+    
+    }
+
+    public void primaryStage(){
+
+        Stage primaryStage = new Stage();
+
         startGameLeft();
         startGameRight();
+        startGame();
 
         Scene cena = new Scene(backPane);
         
@@ -189,27 +190,45 @@ public class Main extends Application{
         primaryStage.setScene(cena);
         primaryStage.setResizable(false);
         primaryStage.show();
-    
     }
 
     public void endRound1(){
-        if(rodada.getRoundState() == 1){
-            
+        if(partida.getRodada().getRound()%2 == 1 && !partida.getJogador1().roundState() || partida.getJogador2().roundState()){
+            System.out.println("poggers");
+
+            //Não mexe nessa parte
+            partida.getJogador1().setRoundState(true);
+            if(partida.getJogador1().roundState() && partida.getJogador2().roundState()){
+                partida.getRodada().passaRound();
+                partida.getJogador1().setRoundState(false);
+                partida.getJogador2().setRoundState(false);
+            }
         }
     }
 
     public void endRound2(){
+        if(partida.getRodada().getRound()%2 == 0 && !partida.getJogador2().roundState() || partida.getJogador1().roundState()){
+            System.out.println("poggers");
 
+            //Não mexe nessa parte
+            partida.getJogador2().setRoundState(true);
+            if(partida.getJogador1().roundState() && partida.getJogador2().roundState()){
+                partida.getRodada().passaRound();
+                partida.getJogador1().setRoundState(false);
+                partida.getJogador2().setRoundState(false);
+            }
+        }
     }
 
     public void trocararena(Node obj){
-        if(obj.getParent() == idleCards){
+
+        if(obj.getParent() == idleCards && !partida.getJogador1().roundState()){
             arenaCards.getChildren().addAll(obj);
-        }else if(obj.getParent() == arenaCards){
+        }else if(obj.getParent() == arenaCards && !partida.getJogador1().roundState()){
             idleCards.getChildren().add(obj);
-        }else if(obj.getParent() == idleCards2){
+        }else if(obj.getParent() == idleCards2 && !partida.getJogador2().roundState()){
             arenaCards2.getChildren().addAll(obj);
-        }else{
+        }else if(!partida.getJogador2().roundState()){
             idleCards2.getChildren().addAll(obj);
         }
     }

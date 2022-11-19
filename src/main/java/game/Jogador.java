@@ -15,6 +15,7 @@ public class Jogador {
         vidas--;
     }
 
+
     public void setRoundState(boolean roundState) {
         this.roundState = roundState;
     }

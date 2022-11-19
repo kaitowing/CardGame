@@ -24,8 +24,8 @@ public class Carta extends GridPane{
 
     private int força;
 
-    public Carta(){
-        this(120,100,1);
+    public Carta(int tipo){
+        this(120,100,tipo);
     }
 
     public BackgroundImage getImage(int i){

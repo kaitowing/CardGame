@@ -2,16 +2,7 @@ package game;
 
 public class Rodada {
     private int round = 1;
-    private int roundState = 1;
 
-    public int getRoundState() {
-        return roundState;
-    }
-    
-    public void setRoundState(int roundState) {
-        this.roundState = roundState;
-    }
-    
     public int getRound() {
         return round;
     }
