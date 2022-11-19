@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.application.Application;
 import javafx.event.Event;
@@ -39,10 +40,10 @@ public class Main extends Application{
     private BorderPane center = new BorderPane();
 
     //Game Engine
-    private Partida partida;
+    private Partida partida = new Partida();
 
     //Métoodos
-    public void startGameLeft(){
+    public void StartGameLeft(){
         
         backPane.minHeight(720);
         backPane.minWidth(1280);
@@ -87,7 +88,7 @@ public class Main extends Application{
         center.setAlignment(endRound, Pos.TOP_CENTER);
     }
 
-    public void startGameRight(){
+    public void StartGameRight(){
         
         backPane.minHeight(720);
         backPane.minWidth(1280);
@@ -132,20 +133,71 @@ public class Main extends Application{
 
         Button resetButton = new Button("Restart Game");
         resetButton.setOnMouseClicked(e -> {
-            startGame();
+            reStartGame();
         });
 
         center.setCenter(resetButton);
         
     }
 
-    public void startGame(){
-        idleCards.getChildren().removeAll();
-        idleCards2.getChildren().removeAll();
-        arenaCards.getChildren().removeAll();
-        arenaCards2.getChildren().removeAll();
+    public void reStartGame(){
+        int idlsize = idleCards.getChildren().size();
+        int idl2size =idleCards2.getChildren().size();
+        int arenasize = arenaCards.getChildren().size();
+        int arena2size =arenaCards2.getChildren().size();
+        if(idlsize!=0){
+            for (int i = 0; i < idlsize; i++) {
+                idleCards.getChildren().remove(0);
+            }
+        }
+
+        if(idl2size!=0){
+            for (int i = 0; i < idl2size; i++) {
+                idleCards2.getChildren().remove(0);
+            }
+        }
+        if(arenasize!=0){
+            for (int i = 0; i < arenasize; i++) {
+                arenaCards.getChildren().remove(0);
+            }
+        }
+        if(arena2size!=0){
+            for (int i = 0; i < arena2size; i++) {
+                arenaCards2.getChildren().remove(0);
+            }
+        }
+
         partida = new Partida();
+        startGame();
     }   
+
+    public void startGame(){
+
+        int size1 = idleCards.getChildren().size();
+        int size2 = idleCards2.getChildren().size();
+
+        for (int i = 0; i < 5 - size1; i++) {
+            Carta newcard = generateCard();
+            newcard.setOnMouseClicked(e -> {
+                trocararena(newcard);
+            });
+            idleCards.getChildren().add(newcard);
+
+        }
+
+        for (int i = 0; i < 5 - size2; i++) {
+            Carta newcard = generateCard();
+            newcard.setOnMouseClicked(e -> {
+                trocararena(newcard);
+            });
+            idleCards2.getChildren().add(newcard);
+        }
+    }
+
+    public Carta generateCard(){
+        Random rand = new Random();
+        return new Carta(1);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -180,8 +232,8 @@ public class Main extends Application{
 
         Stage primaryStage = new Stage();
 
-        startGameLeft();
-        startGameRight();
+        StartGameLeft();
+        StartGameRight();
         startGame();
 
         Scene cena = new Scene(backPane);
@@ -195,7 +247,9 @@ public class Main extends Application{
     public void endRound1(){
         if(partida.getRodada().getRound()%2 == 1 && !partida.getJogador1().roundState() || partida.getJogador2().roundState()){
             System.out.println("poggers");
-
+            if(partida.getJogador2().roundState()){
+                startGame();
+            }
             //Não mexe nessa parte
             partida.getJogador1().setRoundState(true);
             if(partida.getJogador1().roundState() && partida.getJogador2().roundState()){
@@ -209,7 +263,9 @@ public class Main extends Application{
     public void endRound2(){
         if(partida.getRodada().getRound()%2 == 0 && !partida.getJogador2().roundState() || partida.getJogador1().roundState()){
             System.out.println("poggers");
-
+            if(partida.getJogador1().roundState()){
+                startGame();
+            }
             //Não mexe nessa parte
             partida.getJogador2().setRoundState(true);
             if(partida.getJogador1().roundState() && partida.getJogador2().roundState()){
