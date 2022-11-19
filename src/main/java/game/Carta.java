@@ -1,5 +1,8 @@
 package game;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -25,13 +28,15 @@ public class Carta extends GridPane{
         this(120,100,1);
     }
 
-    public Object getImage(int i){
-        try {
-            Image img = new Image(getClass().getResourceAsStream(i + ".png"));
-            return new BackgroundImage(img, null, null, null, null);
-        } catch (Exception e) {
-            return new BackgroundFill(Color.RED, null, null);
-        }
+    public BackgroundImage getImage(int i){
+            try (FileInputStream file = new FileInputStream("src\\main\\java\\game\\images\\"+ i +".png")) {
+                Image img = new Image(file);
+                return new BackgroundImage(img, null, null, null, null);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
     }
 
     public String getTipoAtual() {
@@ -39,9 +44,9 @@ public class Carta extends GridPane{
     }
 
     public Carta(int i, int j, int tipo) {
-        setHeight(i);
-        setWidth(j);
+        setMinHeight(i);
+        setMinWidth(j);
         tipoAtual = tipos[tipo];
-        setBackground(new Background((BackgroundFill[]) getImage(tipo)));
+        setBackground(new Background(getImage(tipo)));
     }
 }
