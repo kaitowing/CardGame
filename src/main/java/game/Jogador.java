@@ -3,7 +3,7 @@ package game;
 public class Jogador {
     private int vidas;
     private boolean roundState;
-    private int mana = 6;
+    private int mana = 4;
     private Partida partida;
     private Arena arena = new Arena();
 
@@ -37,8 +37,8 @@ public class Jogador {
 
     public void upaMana(){
         if(partida.getRodada().getRound()<11)
-       mana = 4 + partida.getRodada().getRound();
-       else mana = 10;
+       mana = 2 + partida.getRodada().getRound();
+       else mana = 14;
     }
 
     public void tiraPonto(int dano){
