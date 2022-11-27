@@ -281,6 +281,7 @@ public class Main extends Application{
         Scene cena = new Scene(backPane);
         cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         cena.getStylesheets().add("https://fonts.googleapis.com/css2?family=Roboto+Condensed");
+        cena.getStylesheets().add("https://fonts.googleapis.com/css2?family=Rubik+Distressed");
         
         primaryStage.setTitle("One Piece Card Game");
         primaryStage.setScene(cena);
