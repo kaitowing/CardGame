@@ -279,7 +279,7 @@ public class Main extends Application{
         cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         cena.getStylesheets().add("https://fonts.googleapis.com/css2?family=Roboto+Condensed");
         
-        primaryStage.setTitle("Poggers");
+        primaryStage.setTitle("One Piece Card Game");
         primaryStage.setScene(cena);
         primaryStage.setResizable(false);
         primaryStage.show();
