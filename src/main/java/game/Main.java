@@ -108,8 +108,6 @@ public class Main extends Application{
         
         backPane.minHeight(720);
         backPane.minWidth(1280);
-        backPane.maxHeight(720);
-        backPane.maxWidth(1280);
         
         backPane.getChildren().add(rightPane);
         backPane.setLeftAnchor(rightPane, 640.0);
@@ -129,7 +127,7 @@ public class Main extends Application{
         idleCards2.setPrefHeight(720);
         idleCards2.setPrefWidth(120);
         idleCards2.setSpacing(10);
-        idleCards2.setPadding(new Insets(0, 10, 10, 0));
+        idleCards2.setPadding(new Insets(0, 0, 10, 10));
         
         rightPane.getChildren().add(arenaCards2);
         rightPane.setRightAnchor(arenaCards2,520.0);
@@ -139,7 +137,7 @@ public class Main extends Application{
         arenaCards2.setPrefHeight(720);
         arenaCards2.setPrefWidth(120);
         arenaCards2.setSpacing(10);
-        arenaCards2.setPadding(new Insets(0, 10, 10, 0));
+        arenaCards2.setPadding(new Insets(0, 0, 10, 10));
 
         endRound2.setOnMouseClicked(e -> {
             endRound2();
