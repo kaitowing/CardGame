@@ -4,20 +4,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 
-import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.GridPane;
+
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+
 
 public class Carta extends Pane{
     
@@ -166,10 +161,13 @@ public class Carta extends Pane{
 
         labelvida.setId("labelVida");
         labelforça.setId("labelForca");
-        
-        setBackground(new Background(getImage(tipo)));
-        
         custo = vida/2 + força;
+        Label mana = new Label(custo+"");
+        getChildren().add(mana);
+        mana.setLayoutX(10);
+        mana.setLayoutY(5);
+        setBackground(new Background(getImage(tipo)));
+        mana.setId("manaCarta");
 
     }
 }
