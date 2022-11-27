@@ -1,8 +1,13 @@
 package game;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -254,7 +259,9 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        Media media = new Media(new File("src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3").toURI().toString());
+        MediaPlayer player = new MediaPlayer(media);
+        player.setAutoPlay(true);
         primaryStage();
     
     }
