@@ -22,8 +22,8 @@ import javafx.scene.shape.Rectangle;
 public class Carta extends Pane{
     
     private String[] tipos = {
-        "PIRATA","ALMIRANTE","YONKOU", "SHISHIBUKAI", "CAPITÃO"
-    };
+        "","PIRATA","PIRATA","IMEDIATO","IMEDIATO","YONKOU","YONKOU", "SHISHIBUKAI","SHISHIBUKAI", "CAPITÃO", "CAPITÃO"
+    };  
 
     private String tipoAtual;
 
@@ -91,8 +91,61 @@ public class Carta extends Pane{
         setMinHeight(i);
         setMinWidth(j);
         tipoAtual = tipos[tipo];
-        this.vida = rand.nextInt(5)+1;
-        this.força = rand.nextInt(5)+1;
+
+        switch(tipo){
+            case 1:
+            this.vida = 2;
+            this.força = 4;
+            break;
+
+            case 2:
+            this.vida = 3;
+            this.força = 3;
+            break;
+            
+            case 3:
+            this.vida = 4;
+            this.força = 2;
+            break;
+
+            case 4:
+            this.vida = 3;
+            this.força = 4;
+            break;
+
+            case 5:
+            this.vida = 5;
+            this.força = 5;
+            break;
+
+            case 6:
+            this.vida = 5;
+            this.força = 4;
+            break;
+
+            case 7:
+
+            this.vida = 3;
+            this.força = 5;
+            break;
+
+            case 8:
+
+            this.vida = 3;
+            this.força = 3;
+            break;
+
+            case 9:
+            this.vida = 4;
+            this.força = 4;
+            break;
+
+            case 10:
+            this.vida = 2;
+            this.força = 4;
+            break;
+
+        }
         
         labelvida.setText(this.vida +"");
         labelforça.setText(this.força + "");

@@ -1,14 +1,15 @@
 package game;
 
 public class Jogador {
-    private int vidas = 5;
+    private int vidas;
     private boolean roundState;
-    private int mana = 1;
+    private int mana = 6;
     private Partida partida;
     private Arena arena = new Arena();
 
     public Jogador(Partida partida){
         this.partida = partida;
+        vidas = 20;
     }
     public int getPontos() {
         return vidas;
@@ -36,12 +37,12 @@ public class Jogador {
 
     public void upaMana(){
         if(partida.getRodada().getRound()<11)
-       mana = partida.getRodada().getRound();
+       mana = 4 + partida.getRodada().getRound();
        else mana = 10;
     }
 
     public void tiraPonto(int dano){
-        vidas -= dano;
+        vidas = vidas - dano;
     }
 
     public Arena getArena() {
