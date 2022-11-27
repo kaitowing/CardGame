@@ -2,7 +2,13 @@ package game;
 
 public class Rodada {
     private int round = 1;
+    private Jogador jogador1;
+    private Jogador jogador2;
 
+    public Rodada(Jogador jog1, Jogador jog2){
+        jogador1 = jog1;
+        jogador2 = jog2;
+    }
     public int getRound() {
         return round;
     }
@@ -13,6 +19,8 @@ public class Rodada {
 
     public void passaRound(){
         this.round++;
+        jogador1.upaMana();
+        jogador2.upaMana();
     }
 
     public void reset(){

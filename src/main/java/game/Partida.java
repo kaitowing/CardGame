@@ -1,11 +1,11 @@
 package game;
 
 public class Partida {
-    private Jogador jogador1 = new Jogador();
+    private Jogador jogador1 = new Jogador(this);
 
-    private Jogador jogador2 = new Jogador();
+    private Jogador jogador2 = new Jogador(this);
 
-    private Rodada rodada = new Rodada();
+    private Rodada rodada = new Rodada(jogador1,jogador2);
 
     public void setJogador1(Jogador jogador1) {
         this.jogador1 = jogador1;
