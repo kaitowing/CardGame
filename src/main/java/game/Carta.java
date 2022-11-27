@@ -22,7 +22,7 @@ import javafx.scene.shape.Rectangle;
 public class Carta extends Pane{
     
     private String[] tipos = {
-        "","PIRATA","PIRATA","IMEDIATO","IMEDIATO","YONKOU","YONKOU", "SHISHIBUKAI","SHISHIBUKAI", "CAPITÃO", "CAPITÃO"
+        "","PIRATA","IMEDIATO","YONKOU","SHISHIBUKAI", "CAPITÃO"
     };  
 
     private String tipoAtual;
@@ -90,7 +90,15 @@ public class Carta extends Pane{
         Random rand = new Random();
         setMinHeight(i);
         setMinWidth(j);
-        tipoAtual = tipos[tipo];
+        if(tipo<3)
+        tipoAtual = tipos[1];
+        else if(tipo <5)
+        tipoAtual = tipos[2];
+        else if(tipo<7)
+        tipoAtual = tipos[3];
+        else if(tipo<9)
+        tipoAtual = tipos[4];
+        else tipoAtual = tipos[5];
 
         switch(tipo){
             case 1:
