@@ -165,7 +165,7 @@ public class Carta extends Pane{
         Label mana = new Label(custo+"");
         getChildren().add(mana);
         mana.setLayoutX(10);
-        mana.setLayoutY(5);
+        mana.setLayoutY(3);
         setBackground(new Background(getImage(tipo)));
         mana.setId("manaCarta");
 
