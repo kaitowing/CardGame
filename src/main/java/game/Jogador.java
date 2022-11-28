@@ -37,7 +37,7 @@ public class Jogador {
 
     public void upaMana(){
         if(partida.getRodada().getRound()<11)
-       mana = 2 + partida.getRodada().getRound();
+       mana = 3 + partida.getRodada().getRound();
        else mana = 14;
     }
 

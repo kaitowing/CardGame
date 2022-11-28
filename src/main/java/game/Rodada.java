@@ -9,6 +9,7 @@ public class Rodada {
         jogador1 = jog1;
         jogador2 = jog2;
     }
+    
     public int getRound() {
         return round;
     }
