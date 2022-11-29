@@ -2,25 +2,18 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Random;
-
 
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 
 import javafx.scene.layout.Pane;
 
 
-public class Carta extends Pane{
-    
-    private String[] tipos = {
-        "","PIRATA","IMEDIATO","YONKOU","SHISHIBUKAI", "CAPITÃO"
-    };  
+public abstract class Carta extends Pane{
 
-    private String tipoAtual;
+    protected String tipoAtual;
 
     private Label labelvida = new Label();
 
@@ -30,12 +23,12 @@ public class Carta extends Pane{
 
     private boolean cardState;
 
-    private int vida;
+    protected int vida;
 
-    private int força;
+    protected int força;
 
-    public Carta(int tipo){
-        this(120,100,tipo);
+    public Carta(){
+        this(120,100);
     }
 
     public int getVida() {
@@ -81,75 +74,12 @@ public class Carta extends Pane{
         return tipoAtual;
     }
 
-    public Carta(int i, int j, int tipo) {
-        Random rand = new Random();
+    public Carta(int i, int j) {
         setMinHeight(i);
         setMinWidth(j);
-        if(tipo<3)
-        tipoAtual = tipos[1];
-        else if(tipo <5)
-        tipoAtual = tipos[2];
-        else if(tipo<7)
-        tipoAtual = tipos[3];
-        else if(tipo<9)
-        tipoAtual = tipos[4];
-        else tipoAtual = tipos[5];
+    }
 
-        switch(tipo){
-            case 1:
-            this.vida = 2;
-            this.força = 4;
-            break;
-
-            case 2:
-            this.vida = 3;
-            this.força = 3;
-            break;
-            
-            case 3:
-            this.vida = 4;
-            this.força = 2;
-            break;
-
-            case 4:
-            this.vida = 3;
-            this.força = 4;
-            break;
-
-            case 5:
-            this.vida = 5;
-            this.força = 5;
-            break;
-
-            case 6:
-            this.vida = 5;
-            this.força = 4;
-            break;
-
-            case 7:
-
-            this.vida = 3;
-            this.força = 5;
-            break;
-
-            case 8:
-
-            this.vida = 3;
-            this.força = 3;
-            break;
-
-            case 9:
-            this.vida = 4;
-            this.força = 4;
-            break;
-
-            case 10:
-            this.vida = 2;
-            this.força = 4;
-            break;
-
-        }
-        
+    public void build(){
         labelvida.setText(this.vida +"");
         labelforça.setText(this.força + "");
         getChildren().add(labelforça);
@@ -166,8 +96,6 @@ public class Carta extends Pane{
         getChildren().add(mana);
         mana.setLayoutX(10);
         mana.setLayoutY(3);
-        setBackground(new Background(getImage(tipo)));
         mana.setId("manaCarta");
-
     }
 }

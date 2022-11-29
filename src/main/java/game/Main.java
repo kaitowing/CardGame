@@ -3,15 +3,11 @@ package game;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Random;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.scene.media.AudioClip;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,25 +22,25 @@ import javafx.stage.Stage;
 
 public class Main extends Application{ 
     
+    private Partida partida = new Partida();
     //Layout
     private AnchorPane backPane = new AnchorPane();
     private AnchorPane rightPane = new AnchorPane();
-    private VBox idleCards2 = new VBox();
-    private VBox arenaCards2 = new VBox();
+    private VBox idleCards2 = partida.getJogador2().getMao();
+    private VBox arenaCards2 = partida.getJogador2().getArena();
     private BorderPane center2 = new BorderPane();
     private Button endRound = new Button("Finalizar Rodada");
     private Button endRound2 = new Button("Finalizar Rodada");
     private AnchorPane leftPane = new AnchorPane();
-    private VBox idleCards = new VBox();
-    private VBox arenaCards = new VBox();
+    private VBox idleCards = partida.getJogador1().getMao();
+    private VBox arenaCards = partida.getJogador1().getArena();
     private BorderPane center = new BorderPane();
     
-    private Partida partida = new Partida();
-    private Label mana = new Label("Mana Atual: " + partida.getJogador1().getMana());
-    private Label mana2 = new Label("Mana Atual: " + partida.getJogador2().getMana());
+    private Label mana = partida.getJogador1().getMostraMana();
+    private Label mana2 = partida.getJogador2().getMostraMana();
     private Label ataque = new Label("Sua vez de atacar!");
-    private Label vida1 = new Label("Vida: " + partida.getJogador1().getPontos());
-    private Label vida2 = new Label("Vida: " + partida.getJogador2().getPontos());
+    private Label vida1 = partida.getJogador1().getMostraVida();
+    private Label vida2 = partida.getJogador2().getMostraVida();
 
     //Métodos
     public void StartGameLeft() throws FileNotFoundException{
@@ -60,7 +56,7 @@ public class Main extends Application{
         backPane.setRightAnchor(leftPane, 640.0);
         leftPane.prefHeight(720);
         leftPane.prefWidth(640);
-        
+
         center.setPrefHeight(720);
         center.setPrefWidth(400);
         leftPane.getChildren().add(center);
@@ -68,27 +64,14 @@ public class Main extends Application{
         
         leftPane.getChildren().add(idleCards);
         leftPane.setRightAnchor(idleCards, 520.0);
-        idleCards.setAlignment(Pos.TOP_CENTER);
-        idleCards.setLayoutX(19.0);
-        idleCards.setLayoutY(11);
-        idleCards.setPrefHeight(720);
-        idleCards.setPrefWidth(120);
-        idleCards.setSpacing(10);
-        idleCards.setPadding(new Insets(0, 10, 10, 0));
+        
         
         leftPane.getChildren().add(arenaCards);
         leftPane.setLeftAnchor(arenaCards,520.0);
-        arenaCards.setAlignment(Pos.TOP_CENTER);
-        arenaCards.setLayoutX(19);
-        arenaCards.setLayoutY(11);
-        arenaCards.setPrefHeight(720);
-        arenaCards.setPrefWidth(120);
-        arenaCards.setSpacing(10);
-        arenaCards.setPadding(new Insets(0, 10, 10, 0));
-
+        
         
         endRound.setOnMouseClicked(e -> {
-            endRound1();
+            partida.endRound1(center, ataque, center2);
         });
         endRound.setVisible(true);
         endRound.setId("endround1");
@@ -98,10 +81,11 @@ public class Main extends Application{
         center.setBottom(mana);
         center.setRight(vida1);
         vida1.setAlignment(Pos.TOP_LEFT);
-        vida1.setId("vida1");
-        vida2.setId("vida2");
+        vida1.setId("vida");
+        vida2.setId("vida");
         center.setMargin(vida1, new Insets(0, 50, 0, 0));
-        mana.setId("Mana1");
+        mana.setId("mana");
+        mana2.setId("mana");
     }
 
     public void StartGameRight(){
@@ -140,12 +124,11 @@ public class Main extends Application{
         arenaCards2.setPadding(new Insets(0, 0, 10, 10));
 
         endRound2.setOnMouseClicked(e -> {
-            endRound2();
+            partida.endRound2(center, ataque, center2);
         });
         endRound2.setVisible(true);
         center2.setTop(endRound2);
         center2.setBottom(mana2);
-        mana2.setId("mana2");
         center2.setAlignment(endRound2, Pos.TOP_CENTER);
         center2.setAlignment(mana2, Pos.BOTTOM_RIGHT);
         center2.setLeft(vida2);
@@ -157,109 +140,27 @@ public class Main extends Application{
         
     }
 
-    public void reStartGame(){
-        int idlsize = idleCards.getChildren().size();
-        int idl2size =idleCards2.getChildren().size();
-        int arenasize = arenaCards.getChildren().size();
-        int arena2size =arenaCards2.getChildren().size();
-        if(idlsize!=0){
-            for (int i = 0; i < idlsize; i++) {
-                idleCards.getChildren().remove(0);
-            }
-        }
-
-        if(idl2size!=0){
-            for (int i = 0; i < idl2size; i++) {
-                idleCards2.getChildren().remove(0);
-            }
-        }
-        if(arenasize!=0){
-            for (int i = 0; i < arenasize; i++) {
-                arenaCards.getChildren().remove(0);
-            }
-        }
-        if(arena2size!=0){
-            for (int i = 0; i < arena2size; i++) {
-                arenaCards2.getChildren().remove(0);
-            }
-        }
-
-        partida = new Partida();
-        startGame();
-        atualizaMana();
-        atualizaVida();
-    }   
+   
 
     public void atualizaVida(){
         vida1.setText("Vida: " + partida.getJogador1().getPontos());
         vida2.setText("Vida: " + partida.getJogador2().getPontos());
-        if(partida.getJogador1().getPontos()<=0 || partida.getJogador1().getPontos()<=0){
-            terminar();
+        if(partida.getJogador1().getPontos()<=0){
+            String style = getClass().getResource("style.css").toExternalForm();
+            terminar(2,style);
+        }else if(partida.getJogador2().getPontos()<=0){
+            String style = getClass().getResource("style.css").toExternalForm();
+            terminar(1,style);
         }
-    }
-
-    public void startGame(){
-
-        int size1 = idleCards.getChildren().size();
-        int size2 = idleCards2.getChildren().size();
-
-        for (int i = 0; i < 5 - size1; i++) {
-            Carta newcard = generateCard();
-            newcard.setOnMouseClicked(e -> {
-                if(!partida.getJogador1().roundState() && !newcard.cardState())
-                trocararena(newcard);
-            });
-            idleCards.getChildren().add(newcard);
-
-        }
-
-        for (int i = 0; i < 5 - size2; i++) {
-            Carta newcard = generateCard();
-            newcard.setOnMouseClicked(e -> {
-                if(!partida.getJogador2().roundState() && !newcard.cardState())
-                trocararena(newcard);
-            });
-            idleCards2.getChildren().add(newcard);
-        }
-    }
-
-    public void startRound(){
-
-        if(partida.getJogador1().getPontos()<=0 || partida.getJogador2().getPontos()<=0){
-            terminar();
-        }
-        int size1 = idleCards.getChildren().size();
-        int size2 = idleCards2.getChildren().size();
-
-        if(size1<5){
-            Carta newcard = generateCard();
-            newcard.setOnMouseClicked(e -> {
-                if(!partida.getJogador1().roundState() && !newcard.cardState())
-                trocararena(newcard);
-            });
-            idleCards.getChildren().add(newcard);
-        }
-
-        if(size2<5){
-            Carta newcard = generateCard();
-            newcard.setOnMouseClicked(e -> {
-                if(!partida.getJogador2().roundState() && !newcard.cardState())
-                trocararena(newcard);
-            });
-            idleCards2.getChildren().add(newcard);
-        }
-    }
-
-    public Carta generateCard(){
-        Random rand = new Random();
-        return new Carta(rand.nextInt(10)+1);
+        
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Media media = new Media(new File("src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3").toURI().toString());
-        MediaPlayer player = new MediaPlayer(media);
-        player.setAutoPlay(true);
+        AudioClip media = new AudioClip(new File("src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3").toURI().toString());
+        media.setVolume(0.25);
+        media.play();
+        media.setCycleCount(100);
         primaryStage();
     
     }
@@ -274,7 +175,6 @@ public class Main extends Application{
             e.printStackTrace();
         }
         StartGameRight();
-        startGame();
 
         Scene cena = new Scene(backPane);
         cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -285,182 +185,9 @@ public class Main extends Application{
         primaryStage.setScene(cena);
         primaryStage.setResizable(false);
         primaryStage.show();
-    }
+    }  
 
-    public void endRound1(){
-        int tamanho = arenaCards.getChildren().size();
-        if(partida.getRodada().getRound()%2 == 1 && !partida.getJogador1().roundState() || partida.getJogador2().roundState()){
-            if(partida.getJogador2().roundState()){
-
-                for (int i = 0; i < arenaCards.getChildren().size(); i++) {
-                    ((Carta) arenaCards.getChildren().get(i)).setCardState(true);
-                }
-                if(arenaCards.getChildren().size() > arenaCards2.getChildren().size()){
-                    tamanho = arenaCards2.getChildren().size();}
-                if(partida.getJogador1().getPontos()<=0 || partida.getJogador1().getPontos()<=0){
-                    terminar();
-                }else{
-                    for (int i = 0; i < tamanho; i++) {
-                        Carta pog = (Carta) arenaCards.getChildren().get(i);
-                        partida.getJogador1().getArena().pop(arenaCards.getChildren().get(i));
-                        Carta pogger = (Carta) arenaCards2.getChildren().get(i);
-                        partida.getJogador2().getArena().pop(arenaCards.getChildren().get(i));
-                        pog.setVida(pog.getVida()-pogger.getForça());
-                        pogger.setVida(pogger.getVida()-pog.getForça());
-                        partida.getJogador1().getArena().push(pog);
-                        partida.getJogador2().getArena().push(pogger);
-                    }
-                    if(arenaCards.getChildren().size() > arenaCards2.getChildren().size()){
-                        tamanho = arenaCards2.getChildren().size();
-                        for (int i = tamanho; i < arenaCards.getChildren().size(); i++) {
-                            Carta card = partida.getJogador1().getArena().pop();
-                            partida.getJogador2().tiraPonto(card.getForça()); 
-                            partida.getJogador1().getArena().push(card);
-                        }
-                    
-                    }else{
-                        tamanho = arenaCards.getChildren().size();
-                        for (int i = tamanho; i < arenaCards2.getChildren().size(); i++) {
-                            Carta card = partida.getJogador2().getArena().pop();
-                            partida.getJogador1().tiraPonto(card.getForça()); 
-                            partida.getJogador2().getArena().push(card);
-                        }
-                    }
-    
-                    for (Carta pog : partida.getJogador1().getArena().getCartaList()) {
-                        if(pog.getVida()<=0)
-                        arenaCards.getChildren().remove(pog);
-                    }
-                    
-                    for (Carta pog : partida.getJogador2().getArena().getCartaList()) {
-                        if(pog.getVida()<=0)
-                        arenaCards2.getChildren().remove(pog);
-                    }
-    
-                    
-                    startRound();
-                }
-            }
-            atualizaVida();
-            //Não mexe nessa parte
-            partida.getJogador1().setRoundState(true);
-            if(partida.getJogador1().roundState() && partida.getJogador2().roundState()){
-                if(center.getLeft() != null)
-                center2.setRight(ataque);
-                else center.setLeft(ataque);
-                partida.getRodada().passaRound();
-                atualizaMana();
-                atualizaVida();
-                partida.getJogador1().setRoundState(false);
-                partida.getJogador2().setRoundState(false);
-            }
-        }
-    }
-
-    public void endRound2(){
-        int tamanho = arenaCards.getChildren().size();
-        if(partida.getRodada().getRound()%2 == 0 && !partida.getJogador2().roundState() || partida.getJogador1().roundState()){
-            if(partida.getJogador1().roundState()){
-
-                for (int i = 0; i < arenaCards2.getChildren().size(); i++) {
-                    ((Carta) arenaCards2.getChildren().get(i)).setCardState(true);
-                }
-                if(arenaCards.getChildren().size() > arenaCards2.getChildren().size()){
-                    tamanho = arenaCards2.getChildren().size();}
-                    if(partida.getJogador2().getPontos()<=0 || partida.getJogador1().getPontos()<=0){
-                        System.exit(1);
-                    }else{
-                        if(partida.getJogador1().roundState()){
-                            if(arenaCards.getChildren().size() > arenaCards2.getChildren().size()){
-                                tamanho = arenaCards2.getChildren().size();
-                                for (int i = tamanho; i < arenaCards.getChildren().size(); i++) {
-                                    Carta card = partida.getJogador1().getArena().pop();
-                                    partida.getJogador2().tiraPonto(card.getForça()); 
-                                    partida.getJogador1().getArena().push(card);
-                                }
-                            
-                            }else{
-                                tamanho = arenaCards.getChildren().size();
-                                for (int i = tamanho; i < arenaCards2.getChildren().size(); i++) {
-                                    Carta card = partida.getJogador2().getArena().pop();
-                                    partida.getJogador1().tiraPonto(card.getForça()); 
-                                    partida.getJogador2().getArena().push(card);
-                                }
-                            }
-                        for (int i = 0; i < tamanho; i++) {
-                            Carta pog = (Carta) arenaCards.getChildren().get(i);
-                            partida.getJogador1().getArena().pop(arenaCards.getChildren().get(i));
-                            Carta pogger = (Carta) arenaCards2.getChildren().get(i);
-                            partida.getJogador2().getArena().pop(arenaCards.getChildren().get(i));
-                            pog.setVida(pog.getVida()-pogger.getForça());
-                            pogger.setVida(pogger.getVida()-pog.getForça());
-                            partida.getJogador1().getArena().push(pog);
-                            partida.getJogador2().getArena().push(pogger);
-                        }
-        
-                        for (Carta pog : partida.getJogador1().getArena().getCartaList()) {
-                            if(pog.getVida()<=0)
-                            arenaCards.getChildren().remove(pog);
-                        }
-                        
-                        for (Carta pog : partida.getJogador2().getArena().getCartaList()) {
-                            if(pog.getVida()<=0)
-                            arenaCards2.getChildren().remove(pog);
-                        }
-    
-                        
-                        startRound();
-                    }
-                }
-            }
-            atualizaVida();
-            //Não mexe nessa parte
-            partida.getJogador2().setRoundState(true);
-            if(partida.getJogador1().roundState() && partida.getJogador2().roundState()){
-                partida.getRodada().passaRound();
-                if(center2.getRight() != null)
-                center.setLeft(ataque);
-                else center2.setRight(ataque);
-                atualizaMana();
-                atualizaVida();
-                partida.getJogador1().setRoundState(false);
-                partida.getJogador2().setRoundState(false);
-            }
-        }
-    }
-
-    public void atualizaMana(){
-        mana.setText("Mana Atual: " + partida.getJogador1().getMana());
-        mana2.setText("Mana Atual: "+ partida.getJogador2().getMana());
-    }
-
-    public void trocararena(Node obj){
-        if(obj.getParent() == idleCards && !partida.getJogador1().roundState()){
-            if(((Carta) obj).getCusto()<= partida.getJogador1().getMana()){
-                arenaCards.getChildren().addAll(obj);
-                partida.getJogador1().getArena().push((Carta) obj);
-                partida.getJogador1().gastaMana((Carta) obj);
-            }
-        }else if(obj.getParent() == arenaCards && !partida.getJogador1().roundState()){
-            idleCards.getChildren().add(obj);
-            partida.getJogador1().getArena().pop(obj);
-            partida.getJogador1().restoreMana((Carta) obj);
-        }else if(obj.getParent() == idleCards2 && !partida.getJogador2().roundState()){
-            if(((Carta) obj).getCusto()<= partida.getJogador2().getMana()){
-                arenaCards2.getChildren().addAll(obj);
-                partida.getJogador2().getArena().push((Carta) obj);
-                partida.getJogador2().gastaMana((Carta) obj);
-            }
-        }else if(!partida.getJogador2().roundState()){
-            idleCards2.getChildren().addAll(obj);
-            partida.getJogador2().getArena().pop(obj);
-            partida.getJogador2().restoreMana((Carta) obj);
-        }
-        atualizaMana();
-        atualizaVida();
-    }
-    
-    public void terminar(){
+    public static void terminar(int i,Object style){
         
         Stage pog = new Stage();
         AnchorPane finalPane = new AnchorPane();
@@ -473,31 +200,25 @@ public class Main extends Application{
         finalPane.setTopAnchor(box, 50.0);
         finalPane.setBottomAnchor(box, 50.0);
         String ganhador = "2";
-        if(partida.getJogador1().getPontos()>partida.getJogador2().getPontos())
+        if(i == 1)
         ganhador = "1";
+        else ganhador = "2";
         Label ganhou = new Label("Jogador "+ ganhador + " ganhou!");
         ganhou.setAlignment(Pos.CENTER);
-        Button reStart = new Button("Jogar Novamente");
         Button sair = new Button("Sair do jogo");
         sair.setOnAction(e->{
             System.exit(1);
         });
-        reStart.setOnAction(e->{
-            pog.hide();
-            reStartGame();
-        });
         Scene finalScene = new Scene(finalPane);
         sair.setId("sair");
-        reStart.setId("restart");
         ganhou.setId("ganhador");
 
-        box.getChildren().addAll(ganhou,sair,reStart);
+        box.getChildren().addAll(ganhou,sair);
         sair.setAlignment(Pos.CENTER);
-        reStart.setAlignment(Pos.CENTER);
         box.setAlignment(Pos.CENTER);
         box.setSpacing(20);
 
-        finalScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        finalScene.getStylesheets().add((String) style);
         finalScene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Oswald");
         pog.setTitle("Ganhador!");
         pog.setScene(finalScene);
