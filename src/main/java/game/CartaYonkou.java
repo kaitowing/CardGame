@@ -7,7 +7,7 @@ public class CartaYonkou extends Carta{
     public CartaYonkou(int tipo) {
         super();
         setBackground(new Background(getImage(tipo)));
-        this.tipoAtual = "IMEDIATO";
+        this.tipoAtual = "YONKOU";
         switch(tipo){
             case 5:
             this.vida = 5;
