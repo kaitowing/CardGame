@@ -51,7 +51,7 @@
     -jfx-button-type: RAISED;
 }
 
-#Mana1{
+#mana{
     -fx-text-fill: rgb(0, 0, 0);
     -fx-font-family: 'Rubik Distressed', cursive;
     -fx-padding: 0.35em 0.28em;
@@ -63,7 +63,7 @@
     -fx-background-radius: 10 10 10 10;
 }
 
-#vida1{
+#vida{
     -fx-text-fill: rgb(255, 255, 255);
     -fx-font-family: 'Rubik Distressed', cursive;
     -fx-padding: 0.35em 0.28em;
@@ -72,18 +72,6 @@
     -fx-background-color: rgb(184, 0, 0);
     -fx-border-radius: 10 10 10 10; 
     -fx-background-radius: 10 10 10 10;
-}
-
-#vida2{
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-family: 'Rubik Distressed', cursive;
-    -fx-padding: 0.35em 0.28em;
-    -fx-font-size: 14px;
-    -jfx-button-type: RAISED;
-    -fx-background-color: rgb(184, 0, 0);
-    -fx-border-radius: 10 10 10 10; 
-    -fx-background-radius: 10 10 10 10;
-
 }
 #ataque{
     -fx-text-fill: rgb(255, 255, 255);
@@ -92,17 +80,6 @@
     -fx-font-size: 14px;
     -jfx-button-type: RAISED;
     -fx-background-color: rgb(162, 78, 5);
-    -fx-border-radius: 10 10 10 10; 
-    -fx-background-radius: 10 10 10 10;
-}
-#mana2{
-    -fx-text-fill: rgb(0, 0, 0);
-    -fx-font-family: 'Rubik Distressed', cursive;
-    -fx-padding: 0.35em 0.28em;
-    -fx-font-size: 14px;
-    -jfx-button-type: RAISED;
-    -fx-stroke: white;
-    -fx-stroke-width: 2px;
     -fx-border-radius: 10 10 10 10; 
     -fx-background-radius: 10 10 10 10;
 }

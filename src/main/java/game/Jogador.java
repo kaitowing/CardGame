@@ -1,15 +1,23 @@
 package game;
 
+import javafx.scene.control.Label;
+
 public class Jogador {
     private int vidas;
     private boolean roundState;
+    private Mao mao;
     private int mana = 4;
-    private Partida partida;
+    Label mostraMana = new Label();
+    Label mostraVida = new Label();
     private Arena arena = new Arena();
 
-    public Jogador(Partida partida){
-        this.partida = partida;
+    public Jogador(String mao){
         vidas = 20;
+        this.mao = new Mao(mao);
+        mostraMana.setId("mana");
+        mostraVida.setId("vida");
+        atualizaMana();
+        atualizaVida();
     }
     public int getPontos() {
         return vidas;
@@ -31,14 +39,34 @@ public class Jogador {
         }
     }
 
+    public Mao getMao() {
+        return mao;
+    }
+
     public void restoreMana(Carta card){
         mana += card.getCusto();
     }
 
-    public void upaMana(){
-        if(partida.getRodada().getRound()<11)
-       mana = 3 + partida.getRodada().getRound();
-       else mana = 14;
+    public Label getMostraMana() {
+        return mostraMana;
+    }
+
+    public void atualizaMana(){
+        mostraMana.setText("Mana Atual: "+mana);
+    }
+
+    public void atualizaVida(){
+        mostraVida.setText("Vida: " + vidas);
+    }
+
+    public Label getMostraVida() {
+        return mostraVida;
+    }
+
+    public void upaMana(int newmana){
+        mana = newmana;
+        atualizaMana();
+        atualizaVida();
     }
 
     public void tiraPonto(int dano){
