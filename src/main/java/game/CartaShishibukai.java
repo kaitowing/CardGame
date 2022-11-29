@@ -7,7 +7,7 @@ public class CartaShishibukai extends Carta{
     public CartaShishibukai(int tipo) {
         super();
         setBackground(new Background(getImage(tipo)));
-        this.tipoAtual = "IMEDIATO";
+        this.tipoAtual = "SHISHIBUKAI";
         switch(tipo){
             case 7:
 
