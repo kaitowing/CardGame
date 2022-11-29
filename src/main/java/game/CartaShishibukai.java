@@ -2,24 +2,25 @@ package game;
 
 import javafx.scene.layout.Background;
 
-public class CartaPirata extends Carta{
+public class CartaShishibukai extends Carta{
 
-    public CartaPirata(int tipo) {
+    public CartaShishibukai(int tipo) {
         super();
         setBackground(new Background(getImage(tipo)));
-        this.tipoAtual = "PIRATA";
+        this.tipoAtual = "IMEDIATO";
         switch(tipo){
-            case 1:
-            this.vida = 2;
-            this.força = 4;
+            case 7:
+
+            this.vida = 3;
+            this.força = 5;
             break;
 
-            case 2:
+            case 8:
+
             this.vida = 3;
             this.força = 3;
             break;
         }
         build();
     }
-    
 }

@@ -80,7 +80,9 @@ public abstract class Carta extends Pane{
     public Carta(int i, int j) {
         setMinHeight(i);
         setMinWidth(j);
-        
+    }
+
+    public void build(){
         labelvida.setText(this.vida +"");
         labelforça.setText(this.força + "");
         getChildren().add(labelforça);
@@ -98,6 +100,5 @@ public abstract class Carta extends Pane{
         mana.setLayoutX(10);
         mana.setLayoutY(3);
         mana.setId("manaCarta");
-
     }
 }

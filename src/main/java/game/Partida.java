@@ -1,20 +1,27 @@
 package game;
 
+import java.io.File;
 import java.util.Random;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class Partida {
     private Jogador jogador1 = new Jogador("Pog");
 
     private Jogador jogador2 = new Jogador("direita");
 
+    private MediaPlayer player;
     private Rodada rodada = new Rodada();
 
     public Partida(){
         startGame();
+        Media media = new Media(new File("src\\main\\java\\game\\music\\CardSound.mp3").toURI().toString());
+        player = new MediaPlayer(media);
     }
 
     public void setJogador1(Jogador jogador1) {
@@ -55,55 +62,47 @@ public class Partida {
         switch(i){
             case 1:
             return new CartaPirata(i);
-            break;
 
             case 2:
             return new CartaPirata(i);
-            break;
+          
             
             case 3:
-            this.vida = 4;
-            this.força = 2;
-            break;
+            return new CartaImediato(i);
+        
 
             case 4:
-            this.vida = 3;
-            this.força = 4;
-            break;
+            return new CartaImediato(i);
+            
 
             case 5:
-            this.vida = 5;
-            this.força = 5;
-            break;
+            return new CartaYonkou(i);
+            
 
             case 6:
-            this.vida = 5;
-            this.força = 4;
-            break;
+            return new CartaYonkou(i);
+            
 
             case 7:
 
-            this.vida = 3;
-            this.força = 5;
-            break;
+            return new CartaShishibukai(i);
+           
 
             case 8:
 
-            this.vida = 3;
-            this.força = 3;
-            break;
+            return new CartaShishibukai(i);
+          
 
             case 9:
-            this.vida = 4;
-            this.força = 4;
-            break;
+            return new CartaCapitao(i);
+
 
             case 10:
-            this.vida = 2;
-            this.força = 4;
-            break;
+            return new CartaCapitao(i);
+
 
         }
+        return null;
     }
 
     public void startGame(){
@@ -112,7 +111,7 @@ public class Partida {
         int size2 = jogador2.getMao().getChildren().size();
 
         for (int i = 0; i < 5 - size1; i++) {
-            Carta newcard = new Carta(rand.nextInt(10)+1);
+            Carta newcard = generateCarta(rand.nextInt(10)+1);
             newcard.setOnMouseClicked(e -> {
                 if(!getJogador1().roundState() && !newcard.cardState())
                 trocararena(newcard);
@@ -122,7 +121,7 @@ public class Partida {
         }
 
         for (int i = 0; i < 5 - size2; i++) {
-            Carta newcard = new Carta(rand.nextInt(10)+1);
+            Carta newcard = generateCarta(rand.nextInt(10)+1);
             newcard.setOnMouseClicked(e -> {
                 if(!getJogador2().roundState() && !newcard.cardState())
                 trocararena(newcard);
@@ -135,21 +134,25 @@ public class Partida {
         if(obj.getParent() == jogador1.getMao() && !getJogador1().roundState()){
             if(((Carta) obj).getCusto()<= getJogador1().getMana()){
                 jogador1.getArena().getChildren().addAll(obj);
+                player.play();
                 getJogador1().getArena().push((Carta) obj);
                 getJogador1().gastaMana((Carta) obj);
             }
         }else if(obj.getParent() == jogador1.getArena() && !getJogador1().roundState()){
             jogador1.getMao().getChildren().add(obj);
+            player.play();
             getJogador1().getArena().pop(obj);
             getJogador1().restoreMana((Carta) obj);
         }else if(obj.getParent() == jogador2.getMao() && !getJogador2().roundState()){
             if(((Carta) obj).getCusto()<= getJogador2().getMana()){
                 jogador2.getArena().getChildren().addAll(obj);
+                player.play();
                 getJogador2().getArena().push((Carta) obj);
                 getJogador2().gastaMana((Carta) obj);
             }
         }else if(!getJogador2().roundState()){
             jogador2.getMao().getChildren().addAll(obj);
+            player.play();
             getJogador2().getArena().pop(obj);
             getJogador2().restoreMana((Carta) obj);
         }
@@ -330,7 +333,7 @@ public class Partida {
             int size2 = jogador2.getMao().getChildren().size();
     
             if(size1<5){
-                Carta newcard = new Carta(rand.nextInt(10)+1);
+                Carta newcard = generateCarta(rand.nextInt(10)+1);
                 newcard.setOnMouseClicked(e -> {
                     if(!getJogador1().roundState() && !newcard.cardState())
                     trocararena(newcard);
@@ -339,7 +342,7 @@ public class Partida {
             }
     
             if(size2<5){
-                Carta newcard = new Carta(rand.nextInt(10)+1);
+                Carta newcard = generateCarta(rand.nextInt(10)+1);
                 newcard.setOnMouseClicked(e -> {
                     if(!getJogador2().roundState() && !newcard.cardState())
                     trocararena(newcard);
