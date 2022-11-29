@@ -6,6 +6,7 @@ import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -15,13 +16,17 @@ public class Partida {
 
     private Jogador jogador2 = new Jogador("direita");
 
-    private MediaPlayer player;
+    private AudioClip player;
+
+    private AudioClip battle;
+
     private Rodada rodada = new Rodada();
 
     public Partida(){
         startGame();
-        Media media = new Media(new File("src\\main\\java\\game\\music\\CardSound.mp3").toURI().toString());
-        player = new MediaPlayer(media);
+        player = new AudioClip(new File("src\\main\\java\\game\\music\\CardSound.mp3").toURI().toString());
+        battle = new AudioClip(new File("src\\main\\java\\game\\music\\battle.mp3").toURI().toString());
+        battle.setVolume(0.2);
     }
 
     public void setJogador1(Jogador jogador1) {
@@ -219,6 +224,7 @@ public class Partida {
     
                     
                     startRound();
+                    battlesound();
                 }
             }
             jogador1.atualizaVida();
@@ -236,6 +242,10 @@ public class Partida {
                 getJogador2().setRoundState(false);
             }
         }
+    }
+
+    public void battlesound(){
+        battle.play();
     }
 
     public void endRound2(BorderPane center, Label ataque, BorderPane center2){
@@ -296,6 +306,7 @@ public class Partida {
     
                         
                         startRound();
+                        battlesound();
                     }
                 }
             }

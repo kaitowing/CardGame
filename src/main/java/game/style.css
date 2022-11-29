@@ -52,7 +52,7 @@
 }
 
 #mana{
-    -fx-text-fill: rgb(0, 0, 0);
+    -fx-text-fill: rgb(10, 16, 39);
     -fx-font-family: 'Rubik Distressed', cursive;
     -fx-padding: 0.35em 0.28em;
     -fx-font-size: 14px;

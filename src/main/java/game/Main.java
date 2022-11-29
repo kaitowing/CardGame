@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -60,7 +61,7 @@ public class Main extends Application{
         backPane.setRightAnchor(leftPane, 640.0);
         leftPane.prefHeight(720);
         leftPane.prefWidth(640);
-        
+
         center.setPrefHeight(720);
         center.setPrefWidth(400);
         leftPane.getChildren().add(center);
@@ -85,10 +86,11 @@ public class Main extends Application{
         center.setBottom(mana);
         center.setRight(vida1);
         vida1.setAlignment(Pos.TOP_LEFT);
-        vida1.setId("vida1");
-        vida2.setId("vida2");
+        vida1.setId("vida");
+        vida2.setId("vida");
         center.setMargin(vida1, new Insets(0, 50, 0, 0));
-        mana.setId("Mana1");
+        mana.setId("mana");
+        mana2.setId("mana");
     }
 
     public void StartGameRight(){
@@ -132,7 +134,6 @@ public class Main extends Application{
         endRound2.setVisible(true);
         center2.setTop(endRound2);
         center2.setBottom(mana2);
-        mana2.setId("mana2");
         center2.setAlignment(endRound2, Pos.TOP_CENTER);
         center2.setAlignment(mana2, Pos.BOTTOM_RIGHT);
         center2.setLeft(vida2);
@@ -161,9 +162,10 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Media media = new Media(new File("src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3").toURI().toString());
-        MediaPlayer player = new MediaPlayer(media);
-        player.setAutoPlay(true);
+        AudioClip media = new AudioClip(new File("src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3").toURI().toString());
+        media.setVolume(0.25);
+        media.play();
+        media.setCycleCount(100);
         primaryStage();
     
     }
