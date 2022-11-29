@@ -2,12 +2,9 @@ package game;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Random;
-
 
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 

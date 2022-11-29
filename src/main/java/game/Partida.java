@@ -7,9 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 public class Partida {
     private Jogador jogador1 = new Jogador("Pog");
