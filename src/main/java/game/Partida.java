@@ -21,8 +21,19 @@ public class Partida {
 
     public Partida(){
         startGame();
-        player = new AudioClip(new File("src\\main\\java\\game\\music\\CardSound.mp3").toURI().toString());
-        battle = new AudioClip(new File("src\\main\\java\\game\\music\\battle.mp3").toURI().toString());
+        String nameFile1,nameFile2; 
+        String my_os_name = System.getProperty("os.name");
+        String my_os_name_v[] = my_os_name.split(" ");
+        if (my_os_name_v[0] == "Windows"){
+                 nameFile1 = "src\\main\\java\\game\\music\\CardSound.mp3";
+                 nameFile2 = "src\\main\\java\\game\\music\\battle.mp3";
+        }
+        else{
+             nameFile1 = "src/main/java/game/music/CardSound.mp3";
+             nameFile2 = "src/main/java/game/music/battle.mp3";
+        }
+        player = new AudioClip(new File(nameFile1).toURI().toString());
+        battle = new AudioClip(new File(nameFile2).toURI().toString());
         battle.setVolume(0.2);
     }
 

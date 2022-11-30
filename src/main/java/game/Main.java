@@ -46,8 +46,17 @@ public class Main extends Application{
     public void StartGameLeft() throws FileNotFoundException{
         backPane.setMinHeight(720);
         backPane.setMinWidth(1280);
+        String nameFile; 
+        String my_os_name = System.getProperty("os.name");
+        String my_os_name_v[] = my_os_name.split(" ");
+        if (my_os_name_v[0] == "Windows"){
+                nameFile = "src\\main\\java\\game\\images\\fundo.png";
+        }
+        else{
+                nameFile = "src/main/java/game/images/fundo.png";
+        }
         
-        FileInputStream file = new FileInputStream("src\\main\\java\\game\\images\\fundo.png");
+        FileInputStream file = new FileInputStream(nameFile);
         Image fundo = new Image(file);
         BackgroundSize size = new BackgroundSize(1.0, 1.0, true, true, false, false);
         backPane.setBackground(new Background(new BackgroundImage(fundo, null, null, null, size)));
@@ -157,7 +166,19 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        AudioClip media = new AudioClip(new File("src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3").toURI().toString());
+
+            String nameFile; 
+            String my_os_name = System.getProperty("os.name");
+            String my_os_name_v[] = my_os_name.split(" ");
+            if (my_os_name_v[0] == "Windows"){
+                    nameFile = "src\\main\\java\\game\\music\\X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3";
+            }
+            else{
+                    nameFile = "src/main/java/game/music/X2Download.com - The Witcher 3 Wild Hunt Soundtrack - Gwent Full Mix (192 kbps).mp3";
+            }
+
+        AudioClip media = new AudioClip(new File(nameFile).toURI().toString());
+        
         media.setVolume(0.25);
         media.play();
         media.setCycleCount(100);

@@ -55,12 +55,20 @@ public abstract class Carta extends Pane{
     }
 
     public BackgroundImage getImage(int i){
-            try (FileInputStream file = new FileInputStream("src\\main\\java\\game\\images\\"+ i +".png")) {
+        String nameFile;
+        String my_os_name = System.getProperty("os.name");
+        String my_os_name_v[] = my_os_name.split(" ");
+        if (my_os_name_v[0] == "Windows"){
+               nameFile = "src\\main\\java\\game\\images\\"+ i +".png";
+        }
+        else{
+               nameFile = "src/main/java/game/images/"+ i +".png";
+        }
+        try (FileInputStream file = new FileInputStream(nameFile)){
                 Image img = new Image(file);
                 BackgroundSize size = new BackgroundSize(1.0, 1.0, true, true, false, false);
                 return new BackgroundImage(img, null, null, null, size);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return null;
